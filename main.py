@@ -27,12 +27,14 @@ def drawBoard(screen):
     for col in range(COLS + 1):  # vertical
         pygame.draw.line(screen, "blue", (startX + col*CELL_SIZE, TPADDING), (startX + col*CELL_SIZE, TPADDING + BOARD_H))
 
-    screen.blit(i.image, (startX, TPADDING))
-    screen.blit(i.image, (startX + CELL_SIZE, TPADDING))
-    screen.blit(i.image, (startX + CELL_SIZE, TPADDING))
-    screen.blit(i.image, (startX + CELL_SIZE, TPADDING))
+    for i in range(ROWS):
+        for j in range(COLS):
+
 
 i = I()
+game.spawn(i)
+print()
+game.print()
 
 
 run = True
