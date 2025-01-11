@@ -14,7 +14,8 @@ BOARD_W, BOARD_H = CELL_SIZE*COLS, CELL_SIZE*ROWS
 TPADDING = (HEIGHT - CELL_SIZE*ROWS) // 2  # the empty space at the top of the game
 
 pieces = [I, J, L, O, S, T, Z]
-turnTime = 60 # how long for each tick, in frames
+turnTime = 30 # how long for each tick, in frames
+currentTime = turnTime
 deltaTime = 1 # subtracted from timer
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -52,6 +53,10 @@ while run:
                 game.shift(1)
             if event.key == pygame.K_LEFT:
                 game.shift(-1)
+            if event.key == pygame.K_UP:
+                game.rotate(game.activePiece, 1)
+            if event.key == pygame.K_z:
+                game.rotate(game.activePiece, -1)
 
     #starts a new active piece
     if getNewActive:
@@ -62,11 +67,11 @@ while run:
         getNewActive = False
 
     # Timer for falling piece, triggers new piece when piece reaches bottom
-    turnTime -= deltaTime
-    if turnTime <= 0:
+    currentTime -= deltaTime
+    if currentTime <= 0:
         if not game.movePiece():
             getNewActive = True
-        turnTime = 60
+        currentTime = turnTime
 
     drawBoard(screen)
 

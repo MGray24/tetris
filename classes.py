@@ -64,6 +64,23 @@ class Game:
         self.activeCords = newCords
         self.activeCenter[0] += shiftAmt
 
+    def rotate(self, piece, direction): #direction = 1 clockwise, -1 counterclockwise
+        desiredRotationState = (piece.rotationState + direction)%4 # this is a number 0-3
+        wallKickID = piece.rotationState*10 + desiredRotationState # will produce a 2 digit number with digits 0-3
+        oldCords = self.activeCords
+        centerx, centery = self.activeCenter
+        zeroedCords = [[x-centerx,y-centery] for x, y in oldCords] # places the center at 0,0 for rotation formula to work
+        rotatedCords = [[-(y*direction)+centerx,(x*direction)+centery] for x, y in zeroedCords]
+
+        for x, y in oldCords:
+            self.board[y][x] = 0
+
+        for x, y in rotatedCords:
+            self.board[y][x] = self.activePiece.id
+
+
+        self.activeCords = rotatedCords
+
 '''PIECE OUTLINE
                   []              []      [][]
 I = [][][][]  J = [][][]  L = [][][]  O = [][]
@@ -74,6 +91,25 @@ S = [][]    T = [][][]  Z =   [][]
 Spawn positions relative to top left corner of board, in terms of tiles. Top left tile is 0, 0
 '''
 
+
+'''
+0 = spawn state
+1 = state resulting from a clockwise rotation("right") from spawn
+2 = state resulting from 2 successive rotations in either direction from spawn.
+3 = state resulting from a counter -clockwise("left") rotation from spawn
+
+so, 23 in the dictionary represents the wall kick patter for a rotation from 2 to 3
+'''
+ #THESE WALL KICKS DO NOT APPLY TO THE "I" TETRONIMO
+wallKicks = {1:[(-1,0),(-1,1),(0,-2),(-1,-2)],
+            10:[(1,0),(1,-1),(0,2),(1,2)],
+            12:[(1,0),(1,-1),(0,2),(1,2)],
+            21:[(-1,0),(-1,1),(0,-2),(-1,-2)],
+            23:[(1,0),(1,1),(0,-2),(1,-2)],
+            32:[(-1,0),(-1,-1),(0,2),(-1,2)],
+            30:[(-1,0),(-1,-1),(0,2),(-1,2)],
+            3:[(1,0),(1,1),(0,-2),(1,-2)]}
+
 class I:
 
     def __init__(self):
@@ -82,15 +118,18 @@ class I:
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 1
+        self.rotationState = 0
 
 class J:
-
+    rotationTestOrder = [[-1,0],[-1,1],[0,-2]]
     def __init__(self):
         spawnPos = [[3, 0], [3, 1], [4, 1], [5, 1]]
         spawnCenter = [4, 1]
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 2
+        self.rotationState = 0
+        self.wallKicks = wallKicks
 
 class L:
 
@@ -100,6 +139,8 @@ class L:
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 3
+        self.rotationState = 0
+        self.wallKicks = wallKicks
 
 class O:
 
@@ -109,6 +150,8 @@ class O:
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 4
+        self.rotationState = 0
+        self.wallKicks = wallKicks
 
 class S:
 
@@ -118,6 +161,8 @@ class S:
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 5
+        self.rotationState = 0
+        self.wallKicks = wallKicks
 
 class T:
 
@@ -127,6 +172,8 @@ class T:
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 6
+        self.rotationState = 0
+        self.wallKicks = wallKicks
 
 class Z:
 
@@ -136,3 +183,5 @@ class Z:
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 7
+        self.rotationState = 0
+        self.wallKicks = wallKicks
