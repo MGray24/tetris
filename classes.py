@@ -41,8 +41,17 @@ class Game:
             print(i)
 
     def spawn(self, piece):
+        spawnCords = []
+        canSpawn = True
         for x, y in piece.sCords:
-            self.board[y][x] = piece.id
+            if self.board[y][x] != 0:
+                canSpawn = False
+        if canSpawn:
+            for x, y in piece.sCords:
+                self.board[y][x] = piece.id
+            return True
+        else:
+            return False
 
     def movePiece(self): #for falling
         oldCords = self.activeCords
@@ -84,6 +93,7 @@ class Game:
     def rotate(self, piece, direction): #direction = 1 clockwise, -1 counterclockwise
         if type(piece) == O:
             return # O piece cant rotate and just causes weird errors
+
         desiredRotationState = (piece.rotationState + direction)%4 # this is a number 0-3
         wallKickID = piece.rotationState*10 + desiredRotationState # will produce a 2-digit number with digits 0-3
         wallKickPath = piece.wallKicks[wallKickID] #gets the specific wallkick path for this piece and rotation
@@ -139,13 +149,14 @@ class Game:
         for x, y in self.ghostCords:
             self.boardCopy[y][x] = int(str(self.activePiece.id)*2)
 
-    def clear(self):
+    def clear(self, sound):
         clear = False
         for i, row in enumerate(self.board):
             if 0 not in row:
                 self.board[i] = [0 for _ in range(10)]
                 clear = True
         if clear:
+            pygame.mixer.Channel(1).play(sound)
             changeMade = True
             while changeMade: #keeps moving rows down until none get moved
                 changeMade = False
@@ -202,6 +213,7 @@ class I:
         spawnPos = [[3, 1], [4, 1], [5, 1], [6, 1]]
         spawnCenter = [4.5, 1.5]
         self.nextShift = (24*7+30+12, 44) #represents a shift in pixels to go from spawnPos to the next area
+        self.holdShift = (-24 * 3 - 30 - 108, 44)
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 1
@@ -214,6 +226,7 @@ class J:
         spawnPos = [[3, 0], [3, 1], [4, 1], [5, 1]]
         spawnCenter = [4, 1]
         self.nextShift = (24 * 7 + 30 + 24, 56)
+        self.holdShift = (-24 * 3 - 30 - 96, 56)
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 2
@@ -226,6 +239,7 @@ class L:
         spawnPos = [[3, 1], [4, 1], [5, 1], [5, 0]]
         spawnCenter = [4, 1]
         self.nextShift = (24 * 7 + 30 + 24, 56)
+        self.holdShift = (-24 * 3 - 30 - 96, 56)
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 3
@@ -238,6 +252,7 @@ class O:
         spawnPos = [[4, 0], [5, 0], [5, 1], [4, 1]]
         spawnCenter = [4.5, 0.5]
         self.nextShift = (24 * 6 + 30 + 36, 56)
+        self.holdShift = (-24 * 4 - 30 - 84, 56)
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 4
@@ -250,6 +265,7 @@ class S:
         spawnPos = [[3, 1], [4, 1], [4, 0], [5, 0]]
         spawnCenter = [4, 1]
         self.nextShift = (24 * 7 + 30 + 24, 56)
+        self.holdShift = (-24 * 3 - 30 - 96, 56)
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 5
@@ -262,6 +278,7 @@ class T:
         spawnPos = [[3, 1], [4, 1], [4, 0], [5, 1]]
         spawnCenter = [4, 1]
         self.nextShift = (24 * 7 + 30 + 24, 56)
+        self.holdShift = (-24 * 3 - 30 - 96, 56)
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 6
@@ -274,6 +291,7 @@ class Z:
         spawnPos = [[3, 0], [4, 0], [4, 1], [5, 1]]
         spawnCenter = [4, 1]
         self.nextShift = (24 * 7 + 30 + 24, 56)
+        self.holdShift = (-24 * 3 - 30 - 96, 56)
         self.sCords = spawnPos
         self.sCenter = spawnCenter
         self.id = 7
