@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e706a59a-d4d4-4b6e-8394-baf7f7bd0aff" name="Changes" comment="wallkick rotations working">
-      <change afterPath="$PROJECT_DIR$/fonts/retroFont.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/simpleblock.ttf" afterDir="false" />
+    <list default="true" id="e706a59a-d4d4-4b6e-8394-baf7f7bd0aff" name="Changes" comment="ghost piece added, instant drop added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -130,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736628104939</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ghost piece added, instant drop added">
+      <option name="closed" value="true" />
+      <created>1736643336190</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1736643336190</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,6 +156,7 @@
     <MESSAGE value="pieces fall, can move side to side and detect each other" />
     <MESSAGE value="simple rotations working" />
     <MESSAGE value="wallkick rotations working" />
-    <option name="LAST_COMMIT_MESSAGE" value="wallkick rotations working" />
+    <MESSAGE value="ghost piece added, instant drop added" />
+    <option name="LAST_COMMIT_MESSAGE" value="ghost piece added, instant drop added" />
   </component>
 </project>

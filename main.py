@@ -52,6 +52,16 @@ def drawNextBox(screen, pieceNext):
     for x, y in pieceNext.sCords:
         screen.blit(game.idToImage[pieceNext.id], (x*CELL_SIZE+180+pieceNext.nextShift[0], y*CELL_SIZE+TPADDING+pieceNext.nextShift[1]))
 
+def newActive():
+    global pieceNext, getNewActive
+    game.clear()
+    game.activePiece = pieceNext
+    pieceNext = random.choice(pieces)()
+    game.spawn(game.activePiece)
+    game.activeCords = game.activePiece.sCords
+    game.activeCenter = game.activePiece.sCenter
+    getNewActive = False
+
 getNewActive = True #do we need a new active piece
 pieceNext = random.choice(pieces)()
 
@@ -75,22 +85,12 @@ while run:
             elif event.key == pygame.K_SPACE:
                 while game.movePiece():
                     pass
-                game.activePiece = pieceNext
-                pieceNext = random.choice(pieces)()
-                game.spawn(game.activePiece)
-                game.activeCords = game.activePiece.sCords
-                game.activeCenter = game.activePiece.sCenter
-                getNewActive = False
+                newActive()
             game.updateGhost()
 
     #starts a new active piece
     if getNewActive:
-        game.activePiece = pieceNext
-        pieceNext = random.choice(pieces)()
-        game.spawn(game.activePiece)
-        game.activeCords = game.activePiece.sCords
-        game.activeCenter = game.activePiece.sCenter
-        getNewActive = False
+        newActive()
 
 
     # Timer for falling piece, triggers new piece when piece reaches bottom

@@ -1,3 +1,5 @@
+import time
+
 import pygame
 pygame.init()
 import copy
@@ -136,6 +138,24 @@ class Game:
 
         for x, y in self.ghostCords:
             self.boardCopy[y][x] = int(str(self.activePiece.id)*2)
+
+    def clear(self):
+        clear = False
+        for i, row in enumerate(self.board):
+            if 0 not in row:
+                self.board[i] = [0 for _ in range(10)]
+                clear = True
+        if clear:
+            changeMade = True
+            while changeMade: #keeps moving rows down until none get moved
+                changeMade = False
+                for i in range(18, -1, -1): # go through each row backwards (dont need to check bottom row)
+                    if self.board[i+1] == [0 for _ in range(10)] and self.board[i] != [0 for _ in range(10)]:
+                        self.board[i+1] = [j for j in self.board[i]]
+                        self.board[i] = [0 for _ in range(10)]
+                        changeMade = True
+
+
 
 '''PIECE OUTLINE
                   []              []      [][]
